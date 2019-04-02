@@ -44,3 +44,6 @@ pytest-randomly<2.0.0
 
 # Tornado dropped support for Python 2.7 and 3.4 with version 6.0. Only Python 3.5.2+ is now supported
 tornado<6.0
+
+# Sphinx 2.0.0 requires python3
+sphinx<2.0.0
