@@ -12,21 +12,15 @@ import six
 from django.contrib.auth.models import User
 from django.core.exceptions import MultipleObjectsReturned
 from django.test import TestCase
-from django.test.utils import override_settings
-from pytz import UTC
 from opaque_keys.edx.keys import CourseKey
-from six import text_type
-
-from lms.djangoapps.courseware.field_overrides import OverrideFieldData
-from lms.djangoapps.ccx.tests.test_overrides import inject_field_overrides
-from student.tests.factories import UserFactory
-from xmodule.fields import Date
-from xmodule.modulestore.django import SignalHandler
-from xmodule.modulestore.tests.django_utils import ModuleStoreTestCase, SharedModuleStoreTestCase
-from xmodule.modulestore.tests.factories import CourseFactory, ItemFactory
+from pytz import UTC
 
 from edx_when import signals
 from edx_when.field_data import DateLookupFieldData
+from student.tests.factories import UserFactory
+from xmodule.fields import Date
+from xmodule.modulestore.tests.django_utils import ModuleStoreTestCase, SharedModuleStoreTestCase
+from xmodule.modulestore.tests.factories import CourseFactory, ItemFactory
 
 from ..views import tools
 
@@ -123,7 +117,7 @@ class TestFindUnit(SharedModuleStoreTestCase):
         """
         Test finding a nested unit.
         """
-        url = text_type(self.homework.location)
+        url = six.text_type(self.homework.location)
         found_unit = tools.find_unit(self.course, url)
         self.assertEqual(found_unit.location, self.homework.location)
 
@@ -166,7 +160,7 @@ class TestGetUnitsWithDueDate(ModuleStoreTestCase):
             """
             URLs for sequence of nodes.
             """
-            return sorted(text_type(i.location) for i in seq)
+            return sorted(six.text_type(i.location) for i in seq)
 
         self.assertEquals(
             urls(tools.get_units_with_due_date(self.course)),
@@ -182,6 +176,7 @@ class TestTitleOrUrl(unittest.TestCase):
         self.assertEquals(tools.title_or_url(unit), 'hello')
 
     def test_url(self):
+        # pylint: disable=unused-argument
         def mock_location_text(self):
             """
             Mock implementation of __unicode__ or __str__ for the unit's location.
@@ -234,10 +229,6 @@ class TestSetDueDateExtension(ModuleStoreTestCase):
 
         inject_field_data((course, week1, week2, week3, homework, assignment), course, user)
 
-    def tearDown(self):
-        super(TestSetDueDateExtension, self).tearDown()
-        OverrideFieldData.provider_classes = None
-
     def _clear_field_data_cache(self):
         """
         Clear field data cache for xblocks under test. Normally this would be
@@ -246,7 +237,7 @@ class TestSetDueDateExtension(ModuleStoreTestCase):
         """
         for block in (self.week1, self.week2, self.week3,
                       self.homework, self.assignment):
-            block._field_data._load_dates(self.course.id, self.user, use_cached=False)
+            block._field_data._load_dates(self.course.id, self.user, use_cached=False)  # pylint: disable=protected-access
             block.fields['due']._del_cached_value(block)  # pylint: disable=protected-access
 
     def test_set_due_date_extension(self):

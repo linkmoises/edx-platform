@@ -3,6 +3,7 @@
 Unit tests for instructor.api methods.
 """
 from __future__ import print_function
+
 import datetime
 import functools
 import io
@@ -11,29 +12,27 @@ import random
 import shutil
 import tempfile
 
-import ddt
 import pytest
-from boto.exception import BotoServerError
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core import mail
 from django.core.files.uploadedfile import SimpleUploadedFile
-from django.urls import reverse as django_reverse
 from django.http import HttpRequest, HttpResponse
 from django.test import RequestFactory, TestCase
 from django.test.utils import override_settings
-from pytz import UTC
+from django.urls import reverse as django_reverse
 from django.utils.translation import ugettext as _
 from mock import Mock, NonCallableMock, patch
 from opaque_keys.edx.keys import CourseKey
 from opaque_keys.edx.locator import UsageKey
+from pytz import UTC
 from six import text_type
 
+import ddt
 import lms.djangoapps.instructor.views.api
 import lms.djangoapps.instructor_task.api
+from boto.exception import BotoServerError
 from bulk_email.models import BulkEmailFlag, CourseEmail, CourseEmailTemplate
-from lms.djangoapps.certificates.models import CertificateStatuses
-from lms.djangoapps.certificates.tests.factories import GeneratedCertificateFactory
 from course_modes.models import CourseMode
 from course_modes.tests.factories import CourseModeFactory
 from courseware.models import StudentFieldOverride, StudentModule
@@ -47,6 +46,8 @@ from courseware.tests.factories import (
 from courseware.tests.helpers import LoginEnrollmentTestCase
 from django_comment_common.models import FORUM_ROLE_COMMUNITY_TA
 from django_comment_common.utils import seed_permissions_roles
+from lms.djangoapps.certificates.models import CertificateStatuses
+from lms.djangoapps.certificates.tests.factories import GeneratedCertificateFactory
 from lms.djangoapps.instructor.tests.utils import FakeContentTask, FakeEmail, FakeEmailInfo
 from lms.djangoapps.instructor.views.api import (
     _split_input_list,

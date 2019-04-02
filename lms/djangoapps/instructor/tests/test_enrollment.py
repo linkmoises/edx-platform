@@ -7,19 +7,19 @@ from __future__ import print_function
 import json
 from abc import ABCMeta
 
-import ddt
 import mock
-from ccx_keys.locator import CCXLocator
 from django.conf import settings
-from django.utils.translation import override as override_language
 from django.utils.translation import get_language
+from django.utils.translation import override as override_language
 from mock import patch
 from opaque_keys.edx.locator import CourseLocator
 from six import text_type
-from crum import set_current_request
 
+import ddt
 from capa.tests.response_xml_factory import MultipleChoiceResponseXMLFactory
+from ccx_keys.locator import CCXLocator
 from courseware.models import StudentModule
+from crum import set_current_request
 from grades.subsection_grade_factory import SubsectionGradeFactory
 from grades.tests.utils import answer_problem
 from lms.djangoapps.ccx.tests.factories import CcxFactory

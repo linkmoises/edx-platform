@@ -15,21 +15,15 @@ import string
 import StringIO
 import time
 
-import unicodecsv
 from django.conf import settings
 from django.contrib.auth.models import User
-from django.core.exceptions import (
-    MultipleObjectsReturned,
-    ObjectDoesNotExist,
-    PermissionDenied,
-    ValidationError
-)
+from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist, PermissionDenied, ValidationError
 from django.core.mail.message import EmailMessage
-from django.urls import reverse
 from django.core.validators import validate_email
 from django.db import IntegrityError, transaction
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden, HttpResponseNotFound
 from django.shortcuts import redirect
+from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.utils.html import strip_tags
 from django.utils.translation import ugettext as _
@@ -50,28 +44,32 @@ import instructor_analytics.csvs
 import instructor_analytics.distributions
 import lms.djangoapps.instructor.enrollment as enrollment
 import lms.djangoapps.instructor_task.api
+import unicodecsv
 from bulk_email.models import BulkEmailFlag, CourseEmail
-from lms.djangoapps.certificates import api as certs_api
-from lms.djangoapps.certificates.models import (
-    CertificateInvalidation, CertificateStatuses, CertificateWhitelist, GeneratedCertificate,
-)
 from courseware.access import has_access
 from courseware.courses import get_course_by_id, get_course_with_access
 from courseware.models import StudentModule
 from django_comment_client.utils import (
-    has_forum_access,
     get_course_discussion_settings,
+    get_group_id_for_user,
     get_group_name,
-    get_group_id_for_user
+    has_forum_access
 )
 from django_comment_common.models import (
-    Role,
     FORUM_ROLE_ADMINISTRATOR,
-    FORUM_ROLE_MODERATOR,
-    FORUM_ROLE_GROUP_MODERATOR,
     FORUM_ROLE_COMMUNITY_TA,
+    FORUM_ROLE_GROUP_MODERATOR,
+    FORUM_ROLE_MODERATOR,
+    Role
 )
 from edxmako.shortcuts import render_to_string
+from lms.djangoapps.certificates import api as certs_api
+from lms.djangoapps.certificates.models import (
+    CertificateInvalidation,
+    CertificateStatuses,
+    CertificateWhitelist,
+    GeneratedCertificate
+)
 from lms.djangoapps.instructor.access import ROLES, allow_access, list_with_level, revoke_access, update_forum_role
 from lms.djangoapps.instructor.enrollment import (
     enroll_email,
@@ -119,8 +117,8 @@ from student.models import (
     UserProfile,
     anonymous_id_for_user,
     get_user_by_username_or_email,
-    unique_id_for_user,
-    is_email_retired
+    is_email_retired,
+    unique_id_for_user
 )
 from student.roles import CourseFinanceAdminRole, CourseSalesAdminRole
 from submissions import api as sub_api  # installed from the edx-submissions repository

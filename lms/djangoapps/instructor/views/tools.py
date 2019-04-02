@@ -7,14 +7,13 @@ import operator
 import dateutil
 from django.contrib.auth.models import User
 from django.http import HttpResponseBadRequest
-from pytz import UTC
 from django.utils.translation import ugettext as _
 from opaque_keys.edx.keys import UsageKey
-from six import text_type, string_types
-
-from student.models import get_user_by_username_or_email
+from pytz import UTC
+from six import string_types, text_type
 
 from edx_when import api
+from student.models import get_user_by_username_or_email
 
 
 class DashboardError(Exception):
@@ -175,7 +174,7 @@ def dump_module_extensions(course, unit):
     header = [_("Username"), _("Full Name"), _("Extended Due Date")]
     data = []
     for username, fullname, due_date in api.get_overrides_for_block(course.id, unit.location):
-        due_date = due_date.strftime('%Y-%m-%d %H:%M')
+        due_date = due_date.strftime(u'%Y-%m-%d %H:%M')
         data.append(dict(zip(header, (username, fullname, due_date))))
     data.sort(key=operator.itemgetter(_("Username")))
     return {
