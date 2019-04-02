@@ -51,5 +51,5 @@ class WaitingProgramEnrollment(TimeStampedModel):
     external_user_key = models.CharField(db_index=True, max_length=255, null=True)
     program_uuid = models.UUIDField(db_index=True, null=False)
     curriculum_uuid = models.UUIDField(db_index=True, null=False)
-    status = models.CharField(max_length=9, choices=STATUSES)
+    status = models.CharField(max_length=8, choices=STATUSES)
     historical_records = HistoricalRecords()
