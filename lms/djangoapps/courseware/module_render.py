@@ -769,8 +769,8 @@ def get_module_system_for_user(
     else:
         anonymous_student_id = anonymous_id_for_user(user, None)
 
-    field_data = LmsFieldData(descriptor._field_data, student_data)  # pylint: disable=protected-access
-    field_data = DateLookupFieldData(field_data, course_id, user)
+    field_data = DateLookupFieldData(descriptor._field_data, course_id, user)  # pylint: disable=protected-access
+    field_data = LmsFieldData(field_data, student_data)
 
     user_is_staff = bool(has_access(user, u'staff', descriptor.location, course_id))
 
@@ -893,7 +893,7 @@ def get_module_for_descriptor_internal(user, descriptor, student_data, course_id
         system,
         user.id,
         [
-            partial(DateLookupFieldData, course_id=course.id, user=user),
+            # partial(DateLookupFieldData, course_id=course.id, user=user),
             partial(OverrideFieldData.wrap, user, course),
             partial(LmsFieldData, student_data=student_data),
         ],
